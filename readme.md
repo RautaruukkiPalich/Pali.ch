@@ -1,1 +1,1 @@
-## FastAPI + MongoDB + Redis
+## FastAPI + MongoDB
