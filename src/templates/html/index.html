@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block content -%}
+<div class="main">
+    <div class="link">
+        <h3>Укажи здесь ссылку, которую необходимо сократить</h3>
+        <input name="long_url" id="long_url" type="text">
+    </div>
+    <div id="short_url">
+    </div>
+    <div class="button">
+        <button onclick="create_url('long_url')">Отправить</button>
+    </div>
+</div>
+{% endblock -%}
