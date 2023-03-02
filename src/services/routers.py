@@ -1,6 +1,6 @@
 import json
 
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, Body
 from starlette.responses import RedirectResponse
 from src.constants.const import HOST_URL
 from src.app.funcs import create_short_url, check_short_url, check_long_url
@@ -25,7 +25,8 @@ async def redirect_url(url: str):
 
 
 @router.post("/create/", tags=["shortly"])
-async def post_long_url(long_url: str):
+async def post_long_url(data: dict = Body()):
+    long_url = data["long_url"]
     check, short_url = await check_long_url(long_url=long_url)
     if not check:
         short_url = await create_short_url(long_url=long_url)
