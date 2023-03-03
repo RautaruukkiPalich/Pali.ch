@@ -16,5 +16,6 @@ async function create_url(input_name){
             document.getElementById("short_url").textContent = data.short_url;
         }
         else
+            document.getElementById("error").textContent = "Invalid URL";
             console.log(response);
 }
