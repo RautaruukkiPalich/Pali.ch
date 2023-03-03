@@ -6,17 +6,16 @@ from fastapi.staticfiles import StaticFiles
 from src.db.redisDB.redis_settings import start_redis
 from src.services import routers
 from datetime import datetime as dt
+from src.constants.const import ROOT
 
 
 app = FastAPI()
 app.include_router(routers.router)
-app.mount('/static', StaticFiles(directory='../../src/static/'), name='static')
-
-log_path = "../../log/"
+app.mount('/static', StaticFiles(directory=f'{ROOT}/src/static/'), name='static')
 
 logging.basicConfig(
     level=logging.DEBUG,
-    filename=f"{log_path}main_log.log",
+    filename=f"{ROOT}/log/main_log.log",
 )
 
 
