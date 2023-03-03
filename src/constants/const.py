@@ -14,3 +14,5 @@ POPULAR_URLS = [
     "yandex",
     "ya.ru",
 ]
+
+ROOT = "../../"
