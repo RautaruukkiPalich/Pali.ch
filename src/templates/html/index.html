@@ -4,14 +4,23 @@
 
 {% block content -%}
 <div class="main">
-    <div class="link">
-        <h3>Укажи здесь ссылку, которую необходимо сократить</h3>
-        <input name="long_url" id="long_url" type="text">
-    </div>
-    <div id="short_url"></div>
-    <div id="error"></div>
-    <div class="button">
-        <button onclick="create_url('long_url')">Отправить</button>
+    <div class="form">
+        <div class="text-info">
+            <h3>Укажи ссылку, которую необходимо сократить</h3>
+        </div>
+        <div class="input-form">
+            <input id="long_url" type="url" placeholder="Вставьте URL">
+        </div>
+        <div class="div-short-url" id="div-short-url">
+            <div class="span-box">
+                <span id="short_url"></span>
+                <button id="copy-btn" class="copy-btn" onclick="copyTextToClipboard('short_url')">Copy</button>
+            </div>
+        </div>
+        <h4 id="error" class="error"></h4>
+        <div class="button">
+            <button id="post-btn" class="post-btn" onclick="create_url('long_url')">Сократить ссылку</button>
+        </div>
     </div>
 </div>
 {% endblock -%}
