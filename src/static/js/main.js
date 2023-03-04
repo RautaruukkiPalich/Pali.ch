@@ -1,9 +1,7 @@
-async function create_url(input_name){
+async function create_url(inputName){
 
-    // получаем введеное в поле имя и возраст
-    const long_url = document.getElementById(input_name).value;
+    const long_url = document.getElementById(inputName).value;
 
-    // отправляем запрос
     const response = await fetch("/create/", {
             method: "POST",
             headers: { "Accept": "application/json", "Content-Type": "application/json" },
@@ -11,11 +9,24 @@ async function create_url(input_name){
                 long_url: long_url,
             })
         });
+        document.getElementById("long_url").textContent = inputName;
+        document.getElementById("error").textContent = null;
+        document.getElementById("short_url").textContent = null;
         if (response.ok) {
             const data = await response.json();
+            document.getElementById("div-short-url").style.display = "block";
             document.getElementById("short_url").textContent = data.short_url;
         }
         else
             document.getElementById("error").textContent = "Invalid URL";
-            console.log(response);
+}
+
+async function copyTextToClipboard(id) {
+    var textToCopy = document.getElementById(id).innerText
+    try {
+        await navigator.clipboard.writeText(textToCopy);
+        console.log('copied to clipboard: ' + textToCopy)
+    } catch (error) {
+        console.log('failed to copy to clipboard. error=' + error);
+    }
 }
