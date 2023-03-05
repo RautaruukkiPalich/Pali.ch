@@ -25,19 +25,21 @@ async def index(request: Request):
 
 
 @router.get("/{url}", tags=["redirect"])
-async def redirect_url(url: str):
+async def redirect_url(request: Request, url: str):
     check, long_url = await check_short_url(short_url=url)
     if check:
-        # return Response(
-        #     content=json.dumps({"long_url": f"{long_url}"}),
-        #     headers={'Content-type': 'application/json'},
-        #     status_code=200,
-        # )
         return RedirectResponse(
             url=long_url,
             headers={'Content-type': 'application/json'},
         )
-    return Response(status_code=404)
+    return templates.TemplateResponse(
+        "404.html",
+        {
+            "request": request,
+        },
+    )
+
+    #return Response(status_code=404)
 
 
 @router.post("/create/", tags=["shortly"])
@@ -45,18 +47,22 @@ async def post_long_url(data: dict = Body()):
     long_url = data["long_url"]
     regex = r"[-a-zA-Z0-9@:%_\+.~#?&\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/=]*)?"
     if not re.search(regex, long_url):
-        return Response(
-            status_code=422
+        content = json.dumps(
+            {
+                "error": "Invalid URL"
+            }
         )
-    check, short_url = await check_long_url(long_url=long_url)
-    if not check:
-        short_url = await create_short_url(long_url=long_url)
-    content = json.dumps(
-        {
-            "long_url": long_url,
-            "short_url": f"{HOST_URL}{short_url}",
-        }
-    )
+    else:
+        check, short_url = await check_long_url(long_url=long_url)
+        if not check:
+            short_url = await create_short_url(long_url=long_url)
+        content = json.dumps(
+            {
+                "error": None,
+                "long_url": long_url,
+                "short_url": f"{HOST_URL}{short_url}",
+            }
+        )
     return Response(
         content=content,
         headers={'Content-type': 'application/json'},
