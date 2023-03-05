@@ -14,7 +14,10 @@
         <div class="div-short-url" id="div-short-url">
             <div class="span-box">
                 <span id="short_url"></span>
-                <button id="copy-btn" class="copy-btn" onclick="copyTextToClipboard('short_url')">Copy</button>
+                <button hidden id="copy-btn" class="copy-btn" onclick="copyTextToClipboard('short_url')"></button>
+                <label for="copy-btn">
+                    <img class="copy-icon" src="static/png/copy-icon.png" alt="">
+                </label>
             </div>
         </div>
         <h4 id="error" class="error"></h4>
