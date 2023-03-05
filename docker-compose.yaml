@@ -1,0 +1,56 @@
+version: '3.6'
+
+services:
+  dbMongo:
+    container_name: mongoDB
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    restart: always
+    volumes:
+      - dbMongo:/data/mongo
+    networks:
+      - net
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@dbMongo:27017/
+    networks:
+      - net
+    links:
+      - dbMongo
+
+  web:
+    container_name: fastAPI_shortly
+    build: .
+    environment:
+      DB_URL: dbMongo
+      DB_PORT: 27017
+      DB_URI: mongodb://root:example@dbMongo:27017/
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app
+    ports:
+      - "${HOST_PORT:-8000}:8000"
+    links:
+      - dbMongo
+    restart: always
+    networks:
+      - net
+
+volumes:
+    dbMongo:
+
+networks:
+  net:
+    driver: bridge
