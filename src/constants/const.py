@@ -15,4 +15,4 @@ POPULAR_URLS = [
     "ya.ru",
 ]
 
-ROOT = "../../"
+ROOT = ""
