@@ -5,9 +5,9 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from src.db.redisDB.redis_settings import start_redis
 from src.services import routers
-from datetime import datetime as dt
 from src.constants.const import ROOT
 from src.services.exception_handlers import exception_handler_404
+from datetime import datetime as dt
 
 app = FastAPI()
 app.include_router(routers.router)
