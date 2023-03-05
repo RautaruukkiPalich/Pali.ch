@@ -17,6 +17,9 @@ templates = get_templates(f"{ROOT}/src/templates/html/")
 
 @router.get("/", response_class=HTMLResponse, tags=["index"])
 async def index(request: Request):
+    """
+    :param request: Request
+    """
     return templates.TemplateResponse(
         "index.html",
         {
@@ -26,18 +29,18 @@ async def index(request: Request):
 
 
 @router.get("/{url}", tags=["get-long-url"])
-async def redirect_url(request: Request, url):
+async def redirect_url(request: Request, url: any):
     """
     :param request: Request
     :param url: str
     """
-    if isinstance(url, str):
-        check, long_url = await check_short_url(short_url=url)
-        if check:
-            return RedirectResponse(
-                url=long_url,
-                headers={'Content-type': 'application/json'},
-            )
+    url = str(url)
+    check, long_url = await check_short_url(short_url=url)
+    if check:
+        return RedirectResponse(
+            url=long_url,
+            headers={'Content-type': 'application/json'},
+        )
     return await exception_handler_404(request)
 
 
