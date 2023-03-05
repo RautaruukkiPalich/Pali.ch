@@ -12,7 +12,7 @@ from src.services.exception_handlers import exception_handler_404
 
 
 router = APIRouter()
-templates = get_templates(f"{ROOT}/src/templates/html/")
+templates = get_templates(f"{ROOT}src/templates/html/")
 
 
 @router.get("/", response_class=HTMLResponse, tags=["index"])
@@ -29,7 +29,7 @@ async def index(request: Request):
 
 
 @router.get("/{url}", tags=["get-long-url"])
-async def redirect_url(request: Request, url: any):
+async def redirect_url(request: Request, url):
     """
     :param request: Request
     :param url: str
