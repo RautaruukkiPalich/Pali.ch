@@ -9,17 +9,30 @@ async function create_url(inputName){
                 long_url: long_url,
             })
         });
-        document.getElementById("long_url").textContent = inputName;
-        document.getElementById("error").textContent = null;
-        document.getElementById("short_url").textContent = null;
+        default_form(inputName)
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("div-short-url").style.display = "block";
-            document.getElementById("short_url").textContent = data.short_url;
+            const error_mess = data.error;
+            switch (error_mess) {
+                case null:
+                    document.getElementById("div-short-url").style.display = "block";
+                    document.getElementById("short_url").textContent = data.short_url;
+                default:
+                    document.getElementById("error").textContent = error_mess;
+            }
         }
-        else
-            document.getElementById("error").textContent = "Invalid URL";
+        else {
+            document.getElementById("error").textContent = "Unexpected Error";
+        }
+    }
+
+function default_form(long_url) {
+    document.getElementById("long_url").textContent = long_url;
+    document.getElementById("error").textContent = null;
+    document.getElementById("short_url").textContent = null;
+    document.getElementById("div-short-url").style.display = "none";
 }
+
 
 async function copyTextToClipboard(id) {
     var textToCopy = document.getElementById(id).innerText
