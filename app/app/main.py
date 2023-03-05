@@ -7,7 +7,7 @@ from src.db.redisDB.redis_settings import start_redis
 from src.services import routers
 from datetime import datetime as dt
 from src.constants.const import ROOT
-
+from src.services.exception_handlers import exception_handler_404
 
 app = FastAPI()
 app.include_router(routers.router)
@@ -17,6 +17,11 @@ logging.basicConfig(
     level=logging.DEBUG,
     filename=f"{ROOT}/log/main_log.log",
 )
+
+
+@app.exception_handler(404)
+async def handler_404(request, __):
+    return await exception_handler_404(request)
 
 
 @app.on_event("startup")
